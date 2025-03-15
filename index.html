@@ -1,399 +1,1101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discover Japan - Your Ultimate Travel Guide</title>
-    <style>
-        :root {
-            --primary: #e60012;
-            --secondary: #333;
-            --light: #f8f9fa;
-            --dark: #212529;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            line-height: 1.6;
-            color: var(--dark);
-            background-color: var(--light);
-        }
-        
-        header {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/api/placeholder/1200/600");
-            background-size: cover;
-            background-position: center;
-            color: white;
-            text-align: center;
-            padding: 150px 20px;
-        }
-        
-        header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-        }
-        
-        header p {
-            font-size: 1.5rem;
-            max-width: 800px;
-            margin: 0 auto 30px;
-        }
-        
-        nav {
-            background-color: var(--secondary);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        nav ul {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-            padding: 0;
-        }
-        
-        nav li {
-            padding: 15px 20px;
-        }
-        
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        
-        nav a:hover {
-            color: var(--primary);
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 40px;
-            color: var(--secondary);
-            position: relative;
-            padding-bottom: 15px;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background-color: var(--primary);
-        }
-        
-        .destinations {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-        
-        .destination-card {
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-        
-        .destination-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .destination-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        
-        .card-content {
-            padding: 20px;
-        }
-        
-        .card-content h3 {
-            margin-bottom: 10px;
-            color: var(--secondary);
-        }
-        
-        .btn {
-            display: inline-block;
-            background-color: var(--primary);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        
-        .btn:hover {
-            background-color: #b50000;
-            transform: translateY(-3px);
-        }
-        
-        .seasons {
-            margin-bottom: 60px;
-        }
-        
-        .season-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        
-        .season-card {
-            text-align: center;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .season-icon {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-        
-        .tips {
-            background-color: #f1f1f1;
-            padding: 60px 0;
-        }
-        
-        .tips-list {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .tip-item {
-            margin-bottom: 30px;
-        }
-        
-        .tip-title {
-            font-size: 1.3rem;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-        
-        footer {
-            background-color: var(--secondary);
-            color: white;
-            text-align: center;
-            padding: 30px 0;
-        }
-        
-        .social-links {
-            margin: 20px 0;
-        }
-        
-        .social-links a {
-            color: white;
-            margin: 0 10px;
-            font-size: 1.5rem;
-        }
-        
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2.5rem;
-            }
-            
-            header p {
-                font-size: 1.2rem;
-            }
-            
-            nav ul {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .destinations {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>旅行行程规划工具</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.7/dayjs.min.js"></script>
+  <style>
+    :root {
+      --primary-color: #4a6fa5;
+      --secondary-color: #6e93c0;
+      --light-gray: #f5f7fa;
+      --gray: #e1e5eb;
+      --dark-gray: #888;
+      --text-color: #333;
+      --shadow: 0 2px 8px rgba(0,0,0,0.1);
+      --card-radius: 8px;
+      --transition: all 0.2s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      color: var(--text-color);
+      background-color: var(--light-gray);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    header h1 {
+      font-size: 24px;
+      color: var(--primary-color);
+      margin-right: 16px;
+    }
+
+    .date-selector {
+      display: flex;
+      align-items: center;
+      margin: 8px 0;
+    }
+
+    .date-selector button {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--primary-color);
+      padding: 4px 8px;
+    }
+
+    .date-selector span {
+      font-size: 18px;
+      font-weight: 500;
+      margin: 0 12px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      margin-left: auto;
+    }
+
+    .btn {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .btn:hover {
+      background-color: var(--secondary-color);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--primary-color);
+      border: 1px solid var(--primary-color);
+    }
+
+    .btn-outline:hover {
+      background-color: rgba(74, 111, 165, 0.1);
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .day-section {
+      background-color: white;
+      border-radius: var(--card-radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .day-header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .day-title {
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .day-content {
+      padding: 16px;
+    }
+
+    .timeline-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .timeline-item {
+      display: flex;
+      position: relative;
+    }
+
+    .time-column {
+      width: 100px;
+      min-width: 100px;
+      padding-top: 12px;
+      text-align: right;
+      padding-right: 16px;
+      font-weight: 500;
+      color: var(--dark-gray);
+    }
+
+    .card-column {
+      flex-grow: 1;
+    }
+
+    .timeline-card {
+      background-color: white;
+      border-radius: var(--card-radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      cursor: move;
+      position: relative;
+      transition: var(--transition);
+      border-left: 4px solid var(--primary-color);
+    }
+
+    .timeline-card.dragging {
+      opacity: 0.7;
+      transform: scale(1.02);
+    }
+
+    .timeline-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .card-time {
+      color: var(--dark-gray);
+      font-size: 14px;
+    }
+
+    .card-category {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      margin-right: 8px;
+      background-color: var(--light-gray);
+      color: var(--dark-gray);
+    }
+
+    .category-transportation { background-color: #e3f2fd; color: #1976d2; }
+    .category-food { background-color: #e8f5e9; color: #388e3c; }
+    .category-attraction { background-color: #fff3e0; color: #f57c00; }
+    .category-accommodation { background-color: #f3e5f5; color: #8e24aa; }
+    .category-shopping { background-color: #e0f2f1; color: #00897b; }
+
+    .card-location {
+      display: flex;
+      align-items: flex-start;
+      margin-top: 8px;
+      color: var(--dark-gray);
+      font-size: 14px;
+    }
+
+    .card-location i {
+      margin-right: 4px;
+    }
+
+    .card-note {
+      margin-top: 8px;
+      color: var(--text-color);
+      font-size: 14px;
+    }
+
+    .card-actions {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      display: none;
+    }
+
+    .timeline-card:hover .card-actions {
+      display: flex;
+    }
+
+    .card-actions button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--dark-gray);
+      padding: 4px;
+      font-size: 16px;
+      transition: var(--transition);
+    }
+
+    .card-actions button:hover {
+      color: var(--text-color);
+    }
+
+    .add-item {
+      display: flex;
+      padding: 12px;
+      background-color: var(--light-gray);
+      border-radius: var(--card-radius);
+      align-items: center;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 8px;
+    }
+
+    .add-item:hover {
+      background-color: var(--gray);
+    }
+
+    .add-item i {
+      margin-right: 8px;
+      color: var(--primary-color);
+    }
+
+    /* Modal styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+
+    .modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background-color: white;
+      border-radius: var(--card-radius);
+      width: 90%;
+      max-width: 500px;
+      padding: 24px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transform: translateY(-20px);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.show .modal {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--dark-gray);
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--gray);
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    .category-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .category-option {
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid transparent;
+    }
+
+    .category-option.selected {
+      border-color: currentColor;
+      font-weight: 500;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .confirm-delete-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    /* Media queries for responsive design */
+    @media (max-width: 768px) {
+      .container {
+        padding: 12px;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .actions {
+        margin-left: 0;
+      }
+
+      .time-column {
+        width: 70px;
+        min-width: 70px;
+        font-size: 14px;
+      }
+
+      .timeline-card {
+        padding: 12px;
+      }
+
+      .card-actions {
+        display: flex;
+        position: relative;
+        top: auto;
+        right: auto;
+        margin-top: 8px;
+        justify-content: flex-end;
+      }
+
+      .form-row {
+        flex-direction: column;
+        gap: 16px;
+      }
+    }
+
+    /* Icons */
+    .icon {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      margin-right: 4px;
+      vertical-align: middle;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
     <header>
-        <h1>Discover Japan</h1>
-        <p>Experience the perfect blend of ancient traditions and modern innovations</p>
-        <a href="#destinations" class="btn">Explore Destinations</a>
+      <h1>日本行程表 2025</h1>
+      <div class="date-selector">
+        <button id="prevDay">&#8249;</button>
+        <span id="currentDate">5月4日 (日)</span>
+        <button id="nextDay">&#8250;</button>
+      </div>
+      <div class="actions">
+        <button class="btn" id="addItemBtn">+ 添加行程</button>
+      </div>
     </header>
-    
-    <nav>
-        <ul>
-            <li><a href="#destinations">Top Destinations</a></li>
-            <li><a href="#seasons">Best Time to Visit</a></li>
-            <li><a href="#tips">Travel Tips</a></li>
-            <li><a href="#culture">Cultural Etiquette</a></li>
-        </ul>
-    </nav>
-    
-    <section id="destinations" class="container">
-        <h2 class="section-title">Top Destinations</h2>
-        <div class="destinations">
-            <div class="destination-card">
-                <img src="images/tokyo.jpg" alt="Tokyo">
-                <div class="card-content">
-                    <h3>Tokyo</h3>
-                    <p>The ultramodern capital with neon-lit skyscrapers, historic temples, and world-class shopping and dining.</p>
-                    <a href="#" class="btn">Learn More</a>
-                </div>
+
+    <main>
+      <div class="timeline" id="timeline">
+        <!-- Timeline content will be generated here -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Edit Item Modal -->
+  <div class="modal-overlay" id="editModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">编辑行程</h3>
+        <button class="modal-close" id="closeModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm">
+          <input type="hidden" id="itemId">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="startTime">开始时间</label>
+              <input type="time" class="form-control" id="startTime" required>
             </div>
-            
-            <div class="destination-card">
-                <img src="images/tokyo.jpg" alt="Kyoto">
-                <div class="card-content">
-                    <h3>Kyoto</h3>
-                    <p>The cultural heart of Japan with over 1,600 Buddhist temples, 400 Shinto shrines, and countless gardens.</p>
-                    <a href="#" class="btn">Learn More</a>
-                </div>
+            <div class="form-group">
+              <label for="endTime">结束时间</label>
+              <input type="time" class="form-control" id="endTime">
             </div>
-            
-            <div class="destination-card">
-                <img src="images/tokyo.jpg" alt="Osaka">
-                <div class="card-content">
-                    <h3>Osaka</h3>
-                    <p>Known for its modern architecture, vibrant nightlife, and reputation as Japan's kitchen with amazing street food.</p>
-                    <a href="#" class="btn">Learn More</a>
-                </div>
+          </div>
+          <div class="form-group">
+            <label for="title">活动内容</label>
+            <input type="text" class="form-control" id="title" required>
+          </div>
+          <div class="form-group">
+            <label for="location">地点</label>
+            <input type="text" class="form-control" id="location">
+          </div>
+          <div class="form-group">
+            <label for="transportation">交通方式</label>
+            <input type="text" class="form-control" id="transportation">
+          </div>
+          <div class="form-group">
+            <label for="note">备注</label>
+            <textarea class="form-control" id="note" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label>分类</label>
+            <div class="category-selector">
+              <div class="category-option category-transportation" data-category="transportation">交通</div>
+              <div class="category-option category-food" data-category="food">餐饮</div>
+              <div class="category-option category-attraction" data-category="attraction">景点</div>
+              <div class="category-option category-accommodation" data-category="accommodation">住宿</div>
+              <div class="category-option category-shopping" data-category="shopping">购物</div>
             </div>
-            
-            <div class="destination-card">
-                <img src="images/tokyo.jpg" alt="Hokkaido">
-                <div class="card-content">
-                    <h3>Hokkaido</h3>
-                    <p>Japan's northernmost island known for skiing, hot springs, and national parks with volcanic landscapes.</p>
-                    <a href="#" class="btn">Learn More</a>
-                </div>
-            </div>
-            
-            <div class="destination-card">
-                <img src="images/tokyo.jpg" alt="Hiroshima">
-                <div class="card-content">
-                    <h3>Hiroshima</h3>
-                    <p>A modern city known for its Peace Memorial Park, Museum and the beautiful Miyajima island nearby.</p>
-                    <a href="#" class="btn">Learn More</a>
-                </div>
-            </div>
-            
-            <div class="destination-card">
-                <img src="images/tokyo.jpg" alt="Okinawa">
-                <div class="card-content">
-                    <h3>Okinawa</h3>
-                    <p>A subtropical paradise with white sand beaches, crystal-clear waters, and unique Ryukyuan culture.</p>
-                    <a href="#" class="btn">Learn More</a>
-                </div>
-            </div>
+            <input type="hidden" id="category" value="transportation">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline" id="cancelBtn">取消</button>
+            <button type="submit" class="btn">保存</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">确认删除</h3>
+        <button class="modal-close" id="closeDeleteModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>确定要删除这个行程项目吗？此操作无法撤销。</p>
+        <input type="hidden" id="deleteItemId">
+        <div class="confirm-delete-buttons">
+          <button class="btn btn-outline" id="cancelDeleteBtn">取消</button>
+          <button class="btn" id="confirmDeleteBtn">删除</button>
         </div>
-    </section>
-    
-    <section id="seasons" class="container seasons">
-        <h2 class="section-title">Best Time to Visit</h2>
-        <div class="season-cards">
-            <div class="season-card">
-                <div class="season-icon">🌸</div>
-                <h3>Spring (March-May)</h3>
-                <p>Cherry blossoms season with mild weather. Perfect for outdoor activities and festivals.</p>
-            </div>
-            
-            <div class="season-card">
-                <div class="season-icon">☀️</div>
-                <h3>Summer (June-August)</h3>
-                <p>Hot and humid with festive summer events, fireworks, and beach activities.</p>
-            </div>
-            
-            <div class="season-card">
-                <div class="season-icon">🍁</div>
-                <h3>Fall (September-November)</h3>
-                <p>Pleasant temperatures and spectacular autumn foliage. Ideal for hiking and outdoor exploration.</p>
-            </div>
-            
-            <div class="season-card">
-                <div class="season-icon">❄️</div>
-                <h3>Winter (December-February)</h3>
-                <p>Perfect for skiing, winter illuminations, snow festivals, and relaxing in hot springs.</p>
-            </div>
-        </div>
-    </section>
-    
-    <section id="tips" class="tips">
-        <div class="container">
-            <h2 class="section-title">Essential Travel Tips</h2>
-            <div class="tips-list">
-                <div class="tip-item">
-                    <h3 class="tip-title">Transportation</h3>
-                    <p>Consider getting a Japan Rail Pass before your trip if you plan to travel between cities. Inside cities, use IC cards like Suica or PASMO for convenient travel on trains and buses. Tokyo's subway system may seem complex but is highly efficient and clean.</p>
-                </div>
-                
-                <div class="tip-item">
-                    <h3 class="tip-title">Money Matters</h3>
-                    <p>Japan is still largely a cash-based society. Always carry cash with you. ATMs at 7-Eleven stores and post offices accept international cards. Credit cards are increasingly accepted at hotels and larger establishments.</p>
-                </div>
-                
-                <div class="tip-item">
-                    <h3 class="tip-title">Internet Access</h3>
-                    <p>Consider renting a pocket WiFi or getting a temporary SIM card upon arrival. Free WiFi is available in many public places but having your own connection is more reliable.</p>
-                </div>
-                
-                <div class="tip-item">
-                    <h3 class="tip-title">Language Barrier</h3>
-                    <p>English is not widely spoken outside major tourist areas. Download a translation app, learn basic Japanese phrases, and carry a small phrasebook. Most signs in major cities have English translations.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <section id="culture" class="container">
-        <h2 class="section-title">Cultural Etiquette</h2>
-        <div class="tips-list">
-            <div class="tip-item">
-                <h3 class="tip-title">Removing Shoes</h3>
-                <p>Always remove your shoes when entering Japanese homes, traditional ryokan inns, and some restaurants and historical sites. Look for shoe racks or slippers at the entrance.</p>
-            </div>
-            
-            <div class="tip-item">
-                <h3 class="tip-title">Tipping</h3>
-                <p>Tipping is not customary in Japan and can even be considered rude or confusing. Service charges are typically included in bills at restaurants and hotels.</p>
-            </div>
-            
-            <div class="tip-item">
-                <h3 class="tip-title">Bowing</h3>
-                <p>Bowing is the traditional greeting in Japan. As a tourist, a slight bow or nod of the head is appropriate. Handshakes are becoming more common in business settings.</p>
-            </div>
-            
-            <div class="tip-item">
-                <h3 class="tip-title">Public Behavior</h3>
-                <p>Maintain a quiet demeanor in public spaces. Avoid eating while walking, speaking loudly on public transportation, or making phone calls on trains.</p>
-            </div>
-        </div>
-    </section>
-    
-    <footer>
-        <div class="container">
-            <h3>Discover Japan</h3>
-            <p>Your gateway to the Land of the Rising Sun</p>
-            <div class="social-links">
-                <a href="#">Facebook</a>
-                <a href="#">Instagram</a>
-                <a href="#">Twitter</a>
-            </div>
-            <p>&copy; 2025 Japan Travel Guide. All rights reserved.</p>
-        </div>
-    </footer>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Data structure for our itinerary
+    let itineraryData = {
+      days: {
+        "2025-05-04": {
+          displayDate: "5月4日 (日)",
+          items: []
+        },
+        "2025-05-05": {
+          displayDate: "5月5日 (一)",
+          items: []
+        },
+        "2025-05-06": {
+          displayDate: "5月6日 (二)",
+          items: []
+        },
+        "2025-05-07": {
+          displayDate: "5月7日 (三)",
+          items: []
+        },
+        "2025-05-08": {
+          displayDate: "5月8日 (四)",
+          items: []
+        },
+        "2025-05-09": {
+          displayDate: "5月9日 (五)",
+          items: []
+        },
+        "2025-05-10": {
+          displayDate: "5月10日 (六)",
+          items: []
+        }
+      },
+      currentDay: "2025-05-04"
+    };
+
+    // Sample data for 5月4日
+    const sampleData = [
+      {
+        id: "item1",
+        startTime: "14:25",
+        endTime: "22:35",
+        title: "航班抵达羽田机场，前往酒店",
+        location: "Henn na Hotel Tokyo Haneda, 2-11-18 Higashikojiya, Ota City",
+        transportation: "京急机场线（羽田空港国际航站楼→京急蒲田站→大鸟居站，9分钟）",
+        note: "- 入境后购买Suica卡并充值¥3000\n- 机场Lawson购买水和简餐",
+        category: "transportation"
+      },
+      {
+        id: "item2",
+        startTime: "22:35",
+        endTime: "",
+        title: "入住酒店休息",
+        location: "",
+        transportation: "",
+        note: "酒店前台提供免费洗漱用品",
+        category: "accommodation"
+      }
+    ];
+
+    // Sample data for 5月5日
+    const sampleData2 = [
+      {
+        id: "item3",
+        startTime: "07:30",
+        endTime: "",
+        title: "退房并寄存行李至APA新宿酒店",
+        location: "APA新宿酒店前台",
+        transportation: "京急本线（大鸟居站→品川站）→都营浅草线（品川→新宿站，49分钟）",
+        note: "- 轻装出行，大件行李寄存酒店\n- 新宿站储物柜备用（大号¥700/天）",
+        category: "accommodation"
+      },
+      {
+        id: "item4",
+        startTime: "08:00",
+        endTime: "08:45",
+        title: "早餐：Asakusa Misojyu Soup & Rice",
+        location: "1-7-5 Asakusa, Taito City",
+        transportation: "步行：浅草站A4出口右转直行200米",
+        note: "- 必点：味噌汤饭团套餐（¥1200）\n- 店内仅8席，建议7:50前到店排队",
+        category: "food"
+      },
+      {
+        id: "item5",
+        startTime: "09:00",
+        endTime: "11:00",
+        title: "浅草寺本堂 & 五重塔深度游览",
+        location: "",
+        transportation: "",
+        note: "- 本堂抄经体验（¥500）\n- 五重塔和服租赁拍照（¥3000/2小时）\n- 和服店推荐：浅草爱和服（官网预约）\n- 五重塔最佳拍摄时间：上午10点前光线柔和",
+        category: "attraction"
+      }
+    ];
+
+    // Initialize the app
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load data from localStorage if available
+      loadFromLocalStorage();
+      
+      // Initialize with sample data if no data exists
+      if (itineraryData.days["2025-05-04"].items.length === 0) {
+        itineraryData.days["2025-05-04"].items = sampleData;
+        itineraryData.days["2025-05-05"].items = sampleData2;
+        saveToLocalStorage();
+      }
+      
+      // Render the timeline
+      renderTimeline();
+      
+      // Set up event listeners
+      setupEventListeners();
+    });
+
+    // Load data from localStorage
+    function loadFromLocalStorage() {
+      const savedData = localStorage.getItem('itineraryData');
+      if (savedData) {
+        itineraryData = JSON.parse(savedData);
+      }
+    }
+
+    // Save data to localStorage
+    function saveToLocalStorage() {
+      localStorage.setItem('itineraryData', JSON.stringify(itineraryData));
+    }
+
+    // Render the timeline based on the current day
+    function renderTimeline() {
+      const timelineContainer = document.getElementById('timeline');
+      const currentDateElement = document.getElementById('currentDate');
+      const currentDayKey = itineraryData.currentDay;
+      const dayData = itineraryData.days[currentDayKey];
+      
+      // Update the date display
+      currentDateElement.textContent = dayData.displayDate;
+      
+      // Clear existing content
+      timelineContainer.innerHTML = '';
+      
+      // Create day section
+      const daySection = document.createElement('div');
+      daySection.className = 'day-section';
+      
+      // Day content with timeline items
+      const dayContent = document.createElement('div');
+      dayContent.className = 'day-content';
+      
+      // Timeline container
+      const timelineContainerEl = document.createElement('div');
+      timelineContainerEl.className = 'timeline-container';
+      timelineContainerEl.id = `items-${currentDayKey}`;
+      
+      // Sort items by start time
+      const sortedItems = [...dayData.items].sort((a, b) => {
+        return a.startTime.localeCompare(b.startTime);
+      });
+      
+      // Generate timeline items
+      sortedItems.forEach(item => {
+        const timelineItem = createTimelineItem(item);
+        timelineContainerEl.appendChild(timelineItem);
+      });
+      
+      // Add button to add new item
+      const addItemEl = document.createElement('div');
+      addItemEl.className = 'add-item';
+      addItemEl.innerHTML = '<i>+</i> 添加新行程';
+      addItemEl.addEventListener('click', () => openEditModal());
+      
+      // Append elements
+      dayContent.appendChild(timelineContainerEl);
+      dayContent.appendChild(addItemEl);
+      daySection.appendChild(dayContent);
+      timelineContainer.appendChild(daySection);
+      
+      // Initialize sortable for drag and drop
+      initSortable(timelineContainerEl.id);
+    }
+
+    // Create a timeline item element
+    function createTimelineItem(item) {
+      const timelineItem = document.createElement('div');
+      timelineItem.className = 'timeline-item';
+      timelineItem.dataset.id = item.id;
+      
+      // Time column
+      const timeColumn = document.createElement('div');
+      timeColumn.className = 'time-column';
+      timeColumn.textContent = item.startTime;
+      
+      // Card column
+      const cardColumn = document.createElement('div');
+      cardColumn.className = 'card-column';
+      
+      // Timeline card
+      const timelineCard = document.createElement('div');
+      timelineCard.className = `timeline-card category-${item.category}`;
+      timelineCard.style.borderLeftColor = getCategoryColor(item.category);
+      
+      // Card header with title and time
+      const cardHeader = document.createElement('div');
+      cardHeader.className = 'card-header';
+      
+      const titleWrapper = document.createElement('div');
+      
+      const cardTitle = document.createElement('div');
+      cardTitle.className = 'card-title';
+      cardTitle.textContent = item.title;
+      
+      const cardTime = document.createElement('div');
+      cardTime.className = 'card-time';
+      cardTime.textContent = item.endTime ? `${item.startTime} - ${item.endTime}` : item.startTime;
+      
+      // Category tag
+      const cardCategory = document.createElement('span');
+      cardCategory.className = `card-category category-${item.category}`;
+      cardCategory.textContent = getCategoryName(item.category);
+      
+      // Location
+      if (item.location) {
+        const cardLocation = document.createElement('div');
+        cardLocation.className = 'card-location';
+        cardLocation.innerHTML = `<i class="icon">📍</i> ${item.location}`;
+        timelineCard.appendChild(cardLocation);
+      }
+      
+      // Transportation
+      if (item.transportation) {
+        const cardTransportation = document.createElement('div');
+        cardTransportation.className = 'card-location';
+        cardTransportation.innerHTML = `<i class="icon">🚆</i> ${item.transportation}`;
+        timelineCard.appendChild(cardTransportation);
+      }
+      
+      // Note
+      if (item.note) {
+        const cardNote = document.createElement('div');
+        cardNote.className = 'card-note';
+        cardNote.textContent = item.note;
+        timelineCard.appendChild(cardNote);
+      }
+      
+      // Card actions
+      const cardActions = document.createElement('div');
+      cardActions.className = 'card-actions';
+      
+      const editButton = document.createElement('button');
+      editButton.innerHTML = '✏️';
+      editButton.title = '编辑';
+      editButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openEditModal(item);
+      });
+      
+      const deleteButton = document.createElement('button');
+      deleteButton.innerHTML = '🗑️';
+      deleteButton.title = '删除';
+      deleteButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openDeleteModal(item.id);
+      });
+      
+      // Assemble the card
+      cardActions.appendChild(editButton);
+      cardActions.appendChild(deleteButton);
+      
+      titleWrapper.appendChild(cardTitle);
+      titleWrapper.appendChild(cardCategory);
+      
+      cardHeader.appendChild(titleWrapper);
+      cardHeader.appendChild(cardTime);
+      
+      timelineCard.appendChild(cardHeader);
+      timelineCard.appendChild(cardActions);
+      
+      // Double-click to edit
+      timelineCard.addEventListener('dblclick', () => {
+        openEditModal(item);
+      });
+      
+      cardColumn.appendChild(timelineCard);
+      
+      timelineItem.appendChild(timeColumn);
+      timelineItem.appendChild(cardColumn);
+      
+      return timelineItem;
+    }
+
+    // Initialize Sortable for drag and drop
+    function initSortable(containerId) {
+      const container = document.getElementById(containerId);
+      new Sortable(container, {
+        animation: 150,
+        handle: '.timeline-card',
+        ghostClass: 'dragging',
+        onEnd: function(evt) {
+          updateItemsOrder(containerId);
+        }
+      });
+    }
+
+    // Update items order after drag and drop
+    function updateItemsOrder(containerId) {
+      const container = document.getElementById(containerId);
+      const items = container.querySelectorAll('.timeline-item');
+      const currentDayKey = itineraryData.currentDay;
+      
+      // Create new ordered array
+      const newOrderedItems = [];
+      
+      items.forEach((item) => {
+        const itemId = item.dataset.id;
+        const foundItem = itineraryData.days[currentDayKey].items.find(i => i.id === itemId);
+        if (foundItem) {
+          newOrderedItems.push(foundItem);
+        }
+      });
+      
+      // Update the data
+      itineraryData.days[currentDayKey].items = newOrderedItems;
+      
+      // Save to localStorage
+      saveToLocalStorage();
+      
+      // Re-render timeline with updated order
+      renderTimeline();
+    }
+
+    // Open edit modal
+    function openEditModal(item = null) {
+      const modal = document.getElementById('editModal');
+      const form = document.getElementById('editForm');
+      const titleInput = document.getElementById('title');
+      const startTimeInput = document.getElementById('startTime');
+      const endTimeInput = document.getElementById('endTime');
+      const locationInput = document.getElementById('location');
+      const transportationInput = document.getElementById('transportation');
+      const noteInput = document.getElementById('note');
+      const itemIdInput = document.getElementById('itemId');
+      const categoryInput = document.getElementById('category');
+      const categoryOptions = document.querySelectorAll('.category-option');
+      
+      // Clear previous selections
+      categoryOptions.forEach(option => {
+        option.classList.remove('selected');
+      });
+      
+      if (item) {
+        // Editing existing item
+        titleInput.value = item.title;
+        startTimeInput.value = item.startTime;
+        endTimeInput.value = item.endTime || '';
+        locationInput.value = item.location || '';
+        transportationInput.value = item.transportation || '';
+        noteInput.value = item.note || '';
+        itemIdInput.value = item.id;
+        categoryInput.value = item.category;
+        
+        // Select the correct category
+        const categoryOption = document.querySelector(`.category-option[data-category="${item.category}"]`);
+        if (categoryOption) {
+          categoryOption.classList.add('selected');
+        }
+      } else {
+        // Creating new item
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const currentTime = `${hours}:${minutes}`;
+        
+        form.reset();
+        startTimeInput.value = currentTime;
+        itemIdInput.value = 'new';
+        categoryInput.value = 'transportation';
+        
+        // Select default category
+        const defaultCategory = document.querySelector('.category-option[data-category="transportation"]');
+        if (defaultCategory) {
+          defaultCategory.classList.add('selected');
+        }
+      }
+      
+      modal.classList.add('show');
+    }
+
+    // Close edit modal
+    function closeEditModal() {
+      const modal = document.getElementById('editModal');
+      modal.classList.remove('show');
+    }
+
+    // Open delete confirmation modal
+    function openDeleteModal(itemId) {
+      const modal = document.getElementById('deleteModal');
+      const deleteItemIdInput = document.getElementById('deleteItemId');
+      
+      deleteItemIdInput.value = itemId;
+      modal.classList.add('show');
+    }
+
+    // Close delete modal
+    function closeDeleteModal() {
+      const modal = document.getElementById('deleteModal');
+      modal.classList.remove('show');
+    }
+
+    // Save item from form
+    function saveItem(e) {
+      e.preventDefault();
+      
+      const titleInput = document.getElementById('title');
+      const startTimeInput = document.getElementById('startTime');
+      const endTimeInput = document.getElementById('endTime');
+      const locationInput = document.getElementById('location');
+      const transportationInput = document.getElementById('transportation');
+      const noteInput = document.getElementById('note');
+      const itemIdInput = document.getElementById('itemId');
+      const categoryInput = document.getElementById('category');
+      
+      const currentDayKey = itineraryData.currentDay;
+      
+      const newItem = {
+        title: titleInput.value,
+        startTime: startTimeInput.value,
+        endTime: endTimeInput.value,
+        location: locationInput.value,
+        transportation: transportationInput.value,
+        note: noteInput.value,
+        category: categoryInput.value
+      };
+      
+      if (itemIdInput.value === 'new') {
+        // Create new item
+        newItem.id = 'item' + Date.now();
+        itineraryData.days[currentDayKey].items.push(newItem);
+      } else {
+        // Update existing item
+        const itemIndex = itineraryData.days[currentDayKey].items.findIndex(item => item.id === itemIdInput.value);
+        if (itemIndex !== -1) {
+          newItem.id = itemIdInput.value;
+          itineraryData.days[currentDayKey].items[itemIndex] = newItem;
+        }
+      }
+      
+      // Save to localStorage
+      saveToLocalStorage();
+      
+      // Close modal and re-render
+      closeEditModal();
+      renderTimeline();
+    }
+
+    // Delete item
+    function deleteItem() {
+      const deleteItemIdInput = document.getElementById('deleteItemId');
+      const itemId = deleteItemIdInput.value;
+      const currentDayKey = itineraryData.currentDay;
+      
+      itineraryData.days[currentDayKey].items = itineraryData.days[currentDayKey].items.filter(item => item.id !== itemId);
+      
+      // Save to localStorage
+      saveToLocalStorage();
+      
+      // Close modal and re-render
+      closeDeleteModal();
+      renderTimeline();
+    }
+
+    // Navigate to previous day
+    function navigateToPrevDay() {
+      const days = Object.keys(itineraryData.days).sort();
+      const currentIndex = days.indexOf(itineraryData.currentDay);
+      
+      if (currentIndex > 0) {
+        itineraryData.currentDay = days[currentIndex - 1];
+        renderTimeline();
+      }
+    }
+
+    // Navigate to next day
+    function navigateToNextDay() {
+      const days = Object.keys(itineraryData.days).sort();
+      const currentIndex = days.indexOf(itineraryData.currentDay);
+      
+      if (currentIndex < days.length - 1) {
+        itineraryData.currentDay = days[currentIndex + 1];
+        renderTimeline();
+      }
+    }
+
+    // Get category display name
+    function getCategoryName(category) {
+      const categories = {
+        'transportation': '交通',
+        'food': '餐饮',
+        'attraction': '景点',
+        'accommodation': '住宿',
+        'shopping': '购物'
+      };
+      
+      return categories[category] || '其他';
+    }
+
+    // Get category color
+    function getCategoryColor(category) {
+      const colors = {
+        'transportation': '#1976d2',
+        'food': '#388e3c',
+        'attraction': '#f57c00',
+        'accommodation': '#8e24aa',
+        'shopping': '#00897b'
+      };
+      
+      return colors[category] || '#888888';
+    }
+
+    // Set up all event listeners
+    function setupEventListeners() {
+      // Navigation buttons
+      document.getElementById('prevDay').addEventListener('click', navigateToPrevDay);
+      document.getElementById('nextDay').addEventListener('click', navigateToNextDay);
+      
+      // Add item button
+      document.getElementById('addItemBtn').addEventListener('click', () => openEditModal());
+      
+      // Edit form submission
+      document.getElementById('editForm').addEventListener('submit', saveItem);
+      
+      // Category selection
+      const categoryOptions = document.querySelectorAll('.category-option');
+      const categoryInput = document.getElementById('category');
+      
+      categoryOptions.forEach(option => {
+        option.addEventListener('click', () => {
+          // Remove selected class from all options
+          categoryOptions.forEach(o => o.classList.remove('selected'));
+          
+          // Add selected class to clicked option
+          option.classList.add('selected');
+          
+          // Update hidden input value
+          categoryInput.value = option.dataset.category;
+        });
+      });
+      
+      // Modal close buttons
+      document.getElementById('closeModal').addEventListener('click', closeEditModal);
+      document.getElementById('cancelBtn').addEventListener('click', closeEditModal);
+      
+      // Delete confirmation
+      document.getElementById('closeDeleteModal').addEventListener('click', closeDeleteModal);
+      document.getElementById('cancelDeleteBtn').addEventListener('click', closeDeleteModal);
+      document.getElementById('confirmDeleteBtn').addEventListener('click', deleteItem);
+    }
+  </script>
 </body>
 </html>
