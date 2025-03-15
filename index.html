@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover Japan - Your Ultimate Travel Guide</title>
+    <style>
+        :root {
+            --primary: #e60012;
+            --secondary: #333;
+            --light: #f8f9fa;
+            --dark: #212529;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+        }
+        
+        header {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/api/placeholder/1200/600");
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 150px 20px;
+        }
+        
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+        
+        header p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+        
+        nav {
+            background-color: var(--secondary);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+        }
+        
+        nav li {
+            padding: 15px 20px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--secondary);
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: var(--primary);
+        }
+        
+        .destinations {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .destination-card {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .destination-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .destination-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .card-content {
+            padding: 20px;
+        }
+        
+        .card-content h3 {
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #b50000;
+            transform: translateY(-3px);
+        }
+        
+        .seasons {
+            margin-bottom: 60px;
+        }
+        
+        .season-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .season-card {
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .season-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .tips {
+            background-color: #f1f1f1;
+            padding: 60px 0;
+        }
+        
+        .tips-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .tip-item {
+            margin-bottom: 30px;
+        }
+        
+        .tip-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            background-color: var(--secondary);
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+        }
+        
+        .social-links {
+            margin: 20px 0;
+        }
+        
+        .social-links a {
+            color: white;
+            margin: 0 10px;
+            font-size: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+            
+            header p {
+                font-size: 1.2rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .destinations {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Discover Japan</h1>
+        <p>Experience the perfect blend of ancient traditions and modern innovations</p>
+        <a href="#destinations" class="btn">Explore Destinations</a>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#destinations">Top Destinations</a></li>
+            <li><a href="#seasons">Best Time to Visit</a></li>
+            <li><a href="#tips">Travel Tips</a></li>
+            <li><a href="#culture">Cultural Etiquette</a></li>
+        </ul>
+    </nav>
+    
+    <section id="destinations" class="container">
+        <h2 class="section-title">Top Destinations</h2>
+        <div class="destinations">
+            <div class="destination-card">
+                <img src="images/tokyo.jpg" alt="Tokyo">
+                <div class="card-content">
+                    <h3>Tokyo</h3>
+                    <p>The ultramodern capital with neon-lit skyscrapers, historic temples, and world-class shopping and dining.</p>
+                    <a href="#" class="btn">Learn More</a>
+                </div>
+            </div>
+            
+            <div class="destination-card">
+                <img src="images/tokyo.jpg" alt="Kyoto">
+                <div class="card-content">
+                    <h3>Kyoto</h3>
+                    <p>The cultural heart of Japan with over 1,600 Buddhist temples, 400 Shinto shrines, and countless gardens.</p>
+                    <a href="#" class="btn">Learn More</a>
+                </div>
+            </div>
+            
+            <div class="destination-card">
+                <img src="images/tokyo.jpg" alt="Osaka">
+                <div class="card-content">
+                    <h3>Osaka</h3>
+                    <p>Known for its modern architecture, vibrant nightlife, and reputation as Japan's kitchen with amazing street food.</p>
+                    <a href="#" class="btn">Learn More</a>
+                </div>
+            </div>
+            
+            <div class="destination-card">
+                <img src="images/tokyo.jpg" alt="Hokkaido">
+                <div class="card-content">
+                    <h3>Hokkaido</h3>
+                    <p>Japan's northernmost island known for skiing, hot springs, and national parks with volcanic landscapes.</p>
+                    <a href="#" class="btn">Learn More</a>
+                </div>
+            </div>
+            
+            <div class="destination-card">
+                <img src="images/tokyo.jpg" alt="Hiroshima">
+                <div class="card-content">
+                    <h3>Hiroshima</h3>
+                    <p>A modern city known for its Peace Memorial Park, Museum and the beautiful Miyajima island nearby.</p>
+                    <a href="#" class="btn">Learn More</a>
+                </div>
+            </div>
+            
+            <div class="destination-card">
+                <img src="images/tokyo.jpg" alt="Okinawa">
+                <div class="card-content">
+                    <h3>Okinawa</h3>
+                    <p>A subtropical paradise with white sand beaches, crystal-clear waters, and unique Ryukyuan culture.</p>
+                    <a href="#" class="btn">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="seasons" class="container seasons">
+        <h2 class="section-title">Best Time to Visit</h2>
+        <div class="season-cards">
+            <div class="season-card">
+                <div class="season-icon">🌸</div>
+                <h3>Spring (March-May)</h3>
+                <p>Cherry blossoms season with mild weather. Perfect for outdoor activities and festivals.</p>
+            </div>
+            
+            <div class="season-card">
+                <div class="season-icon">☀️</div>
+                <h3>Summer (June-August)</h3>
+                <p>Hot and humid with festive summer events, fireworks, and beach activities.</p>
+            </div>
+            
+            <div class="season-card">
+                <div class="season-icon">🍁</div>
+                <h3>Fall (September-November)</h3>
+                <p>Pleasant temperatures and spectacular autumn foliage. Ideal for hiking and outdoor exploration.</p>
+            </div>
+            
+            <div class="season-card">
+                <div class="season-icon">❄️</div>
+                <h3>Winter (December-February)</h3>
+                <p>Perfect for skiing, winter illuminations, snow festivals, and relaxing in hot springs.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="tips" class="tips">
+        <div class="container">
+            <h2 class="section-title">Essential Travel Tips</h2>
+            <div class="tips-list">
+                <div class="tip-item">
+                    <h3 class="tip-title">Transportation</h3>
+                    <p>Consider getting a Japan Rail Pass before your trip if you plan to travel between cities. Inside cities, use IC cards like Suica or PASMO for convenient travel on trains and buses. Tokyo's subway system may seem complex but is highly efficient and clean.</p>
+                </div>
+                
+                <div class="tip-item">
+                    <h3 class="tip-title">Money Matters</h3>
+                    <p>Japan is still largely a cash-based society. Always carry cash with you. ATMs at 7-Eleven stores and post offices accept international cards. Credit cards are increasingly accepted at hotels and larger establishments.</p>
+                </div>
+                
+                <div class="tip-item">
+                    <h3 class="tip-title">Internet Access</h3>
+                    <p>Consider renting a pocket WiFi or getting a temporary SIM card upon arrival. Free WiFi is available in many public places but having your own connection is more reliable.</p>
+                </div>
+                
+                <div class="tip-item">
+                    <h3 class="tip-title">Language Barrier</h3>
+                    <p>English is not widely spoken outside major tourist areas. Download a translation app, learn basic Japanese phrases, and carry a small phrasebook. Most signs in major cities have English translations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="culture" class="container">
+        <h2 class="section-title">Cultural Etiquette</h2>
+        <div class="tips-list">
+            <div class="tip-item">
+                <h3 class="tip-title">Removing Shoes</h3>
+                <p>Always remove your shoes when entering Japanese homes, traditional ryokan inns, and some restaurants and historical sites. Look for shoe racks or slippers at the entrance.</p>
+            </div>
+            
+            <div class="tip-item">
+                <h3 class="tip-title">Tipping</h3>
+                <p>Tipping is not customary in Japan and can even be considered rude or confusing. Service charges are typically included in bills at restaurants and hotels.</p>
+            </div>
+            
+            <div class="tip-item">
+                <h3 class="tip-title">Bowing</h3>
+                <p>Bowing is the traditional greeting in Japan. As a tourist, a slight bow or nod of the head is appropriate. Handshakes are becoming more common in business settings.</p>
+            </div>
+            
+            <div class="tip-item">
+                <h3 class="tip-title">Public Behavior</h3>
+                <p>Maintain a quiet demeanor in public spaces. Avoid eating while walking, speaking loudly on public transportation, or making phone calls on trains.</p>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <h3>Discover Japan</h3>
+            <p>Your gateway to the Land of the Rising Sun</p>
+            <div class="social-links">
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">Twitter</a>
+            </div>
+            <p>&copy; 2025 Japan Travel Guide. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

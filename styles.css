@@ -1,0 +1,59 @@
+:root {
+    --primary: #e60012;
+    --secondary: #333;
+    --light: #f8f9fa;
+    --dark: #212529;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    line-height: 1.6;
+    color: var(--dark);
+    background-color: var(--light);
+}
+
+header {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("images/header-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 150px 20px;
+}
+
+/* Add ALL your original CSS styles here */
+/* Then add these new mobile styles: */
+
+.menu-btn {
+    display: none;
+    background: var(--secondary);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 20px;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1001;
+}
+
+@media (max-width: 768px) {
+    .menu-btn { display: block; }
+    nav ul {
+        display: none;
+        position: fixed;
+        top: 50px;
+        left: 0;
+        right: 0;
+        background: var(--secondary);
+        flex-direction: column;
+    }
+    nav ul.active { display: flex; }
+    nav li { padding: 10px; }
+}
